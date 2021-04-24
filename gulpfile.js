@@ -24,7 +24,7 @@ const compileSass = () => {
 const dev = (cb) => {
   compileSass();
 
-  browserSync.init(config.browserSync.init);
+  browserSync.init(config.browserSync);
 
   watch(config.watch.sass.src, compileSass);
 

@@ -1,8 +1,6 @@
 exports.config = {
   browserSync: {
-    init: {
-      proxy: 'localhost'
-    }
+    proxy: 'localhost'
   }
   , watch: {
     src: [

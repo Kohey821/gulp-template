@@ -1,4 +1,4 @@
-# gulp.js を使用した sass のコンパイルと css のオートストリーム
+# 自分用 gulp.js テンプレート
 
 ## 初回インストール
 
@@ -18,7 +18,24 @@ npm install --global gulp-cli \
 npm install
 ```
 
-を実行してこのディレクトリで必要な npm パッケージをインストール
+でこのディレクトリで必要な npm パッケージをインストール
+
+## gulp-config.js
+
+browserSync:
+  [公式](https://browsersync.io/docs/options) と同様
+
+watch.src:
+  変更時にブラウザをリロードするファイル郡
+  [src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+
+watch.sass.src:
+  sass ファイル群
+  [src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+
+watch.sass.dest:
+  sass コンパイル先
+  [dest()](https://gulpjs.com/docs/en/api/dest) の directory パラメーター同様
 
 ## 稼働
 
@@ -34,4 +51,4 @@ node-sass 系のエラーが出る場合は
 npm rebuild node-sass
 ```
 
-を実行して node-sass をリビルド
+で node-sass をリビルド
