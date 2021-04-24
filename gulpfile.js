@@ -4,7 +4,7 @@ const sass = require('gulp-sass');
 sass.compiler = require('node-sass');
 const sourcemaps = require('gulp-sourcemaps');
 
-const { config } = require('./gulp-config');
+const { config } = require('./gulpfile-config');
 
 const streamCss = (stream) => {
   return stream
