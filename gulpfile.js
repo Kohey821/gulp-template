@@ -12,13 +12,13 @@ const streamCss = (stream) => {
 };
 
 const compileSass = () => {
-  return src(config.watch.sass.src)
+  return src(config.watch.compile.sass.src)
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: "compressed",
     }).on('error', sass.logError))
     .pipe(sourcemaps.write('.'))
-    .pipe(dest(config.watch.sass.dest));
+    .pipe(dest(config.watch.compile.sass.dest));
 };
 
 const dev = (cb) => {
@@ -26,14 +26,13 @@ const dev = (cb) => {
 
   browserSync.init(config.browserSync);
 
-  watch(config.watch.sass.src, compileSass);
+  watch(config.watch.compile.sass.src, compileSass);
 
-  let cssFiles = config.watch.sass.dest + '/**/*.css';
-  watch(cssFiles, () => {
-    return streamCss(src(cssFiles));
+  watch(config.watch.stream.src, () => {
+    return streamCss(src(config.watch.stream.src));
   });
 
-  watch(config.watch.src, (cb) => {
+  watch(config.watch.reload.src, (cb) => {
     browserSync.reload();
 
     cb();

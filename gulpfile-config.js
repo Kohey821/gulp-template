@@ -3,15 +3,24 @@ exports.config = {
     proxy: 'localhost'
   }
   , watch: {
-    src: [
-      './app/**/*.html'
-    ]
-    , sass: {
+    reload: {
       src: [
-        './app/sass/**/*.sass'
-        , './app/sass/**/*.scss'
+        './app/**/*.html'
       ]
-      , dest: './app/css'
+    }
+    , stream: {
+      src: [
+        './app/css/**/*.css'
+      ]
+    }
+    , compile: {
+      sass: {
+        src: [
+          './app/sass/**/*.sass'
+          , './app/sass/**/*.scss'
+        ]
+        , dest: './app/css'
+      }
     }
   }
 };

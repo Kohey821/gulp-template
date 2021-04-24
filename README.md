@@ -1,6 +1,7 @@
 # gulp.js テンプレート
 
 Windows 向けに記載されているので適宜読み替えで...
+<br>一先ず sass のみ...
 
 ## 初回インストール
 
@@ -22,23 +23,28 @@ npm install
 
 でこのディレクトリで必要な npm パッケージをインストール
 
-## gulp-config.js
+## gulpfile-config.js
 
 * browserSync:
 
   [公式 options](https://browsersync.io/docs/options) と同様
 
-* watch.src:
+* watch.reload.src:
 
   変更時にブラウザをリロードするファイル郡
   <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
 
-* watch.sass.src:
+* watch.stream.src:
+
+  変更時にブラウザに流し込む (主に CSS) ファイル郡
+  <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+
+* watch.compile.sass.src:
 
   sass ファイル群
   <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
 
-* watch.sass.dest:
+* watch.compile.sass.dest:
 
   sass コンパイル先
   <br>[dest()](https://gulpjs.com/docs/en/api/dest) の directory パラメーター同様
