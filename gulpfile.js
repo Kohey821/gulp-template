@@ -6,19 +6,33 @@ const sourcemaps = require('gulp-sourcemaps');
 
 const { config } = require('./gulpfile-config');
 
+const checkNested = (obj, level, ...rest) => {
+  if (typeof obj === 'undefined') return false;
+  if (rest.length == 0 && obj.hasOwnProperty(level)) return true;
+  return checkNested(obj[level], ...rest);
+};
+
 const streamCss = (stream) => {
   return stream
     .pipe(browserSync.stream());
 };
 
+const sassFileExists = () => {
+  return checkNested(config.watch, 'compile', 'sass', 'src');
+};
+
 const compileSass = () => {
-  return src(config.watch.compile.sass.src)
-    .pipe(sourcemaps.init())
-    .pipe(sass({
-      outputStyle: "compressed",
-    }).on('error', sass.logError))
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest(config.watch.compile.sass.dest));
+  if (sassFileExists()) {
+    return src(config.watch.compile.sass.src)
+      .pipe(sourcemaps.init())
+      .pipe(sass({
+        outputStyle: "compressed",
+      }).on('error', sass.logError))
+      .pipe(sourcemaps.write('.'))
+      .pipe(dest(config.watch.compile.sass.dest));
+  }
+
+  return;
 };
 
 const dev = (cb) => {
@@ -26,7 +40,8 @@ const dev = (cb) => {
 
   browserSync.init(config.browserSync);
 
-  watch(config.watch.compile.sass.src, compileSass);
+  sassFileExists()
+    && watch(config.watch.compile.sass.src, compileSass);
 
   watch(config.watch.stream.src, () => {
     return streamCss(src(config.watch.stream.src));
