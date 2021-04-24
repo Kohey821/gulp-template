@@ -1,4 +1,6 @@
-# 自分用 gulp.js テンプレート
+# gulp.js テンプレート
+
+Windows 向けに記載されているので適宜読み替えで...
 
 ## 初回インストール
 
@@ -22,20 +24,24 @@ npm install
 
 ## gulp-config.js
 
-browserSync:
-  [公式](https://browsersync.io/docs/options) と同様
+* browserSync:
 
-watch.src:
+  [公式 options](https://browsersync.io/docs/options) と同様
+
+* watch.src:
+
   変更時にブラウザをリロードするファイル郡
-  [src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+  <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
 
-watch.sass.src:
+* watch.sass.src:
+
   sass ファイル群
-  [src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+  <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
 
-watch.sass.dest:
+* watch.sass.dest:
+
   sass コンパイル先
-  [dest()](https://gulpjs.com/docs/en/api/dest) の directory パラメーター同様
+  <br>[dest()](https://gulpjs.com/docs/en/api/dest) の directory パラメーター同様
 
 ## 稼働
 
