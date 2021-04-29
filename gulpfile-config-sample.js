@@ -25,7 +25,9 @@ exports.config = {
             },
             js: {
                 src: [
-                    './sample/js/src/**/*.js',
+                    './sample/js/src/three.js',
+                    './sample/js/src/two.js',
+                    './sample/js/src/one.js',
                 ],
                 dest: [
                     './sample/js/dest',

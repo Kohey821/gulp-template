@@ -1,6 +1,8 @@
-# gulp の設定
+# gulp テンプレート
 
-Windows 向けに記載されているので適宜読み替えで...
+[設定](#gulpfile-configjs)に基づき、コンパイル、ブラウザリロードを自動で行います
+
+以下 Windows 向けに記載されているので適宜読み替えで...
 
 ## 用語
 
@@ -31,7 +33,7 @@ Windows 向けに記載されているので適宜読み替えで...
 
   でこのディレクトリで必要な npm パッケージのインストール
 
-4. `gulpfile-config-default.js` をコピーして `gulpfile-config.js` にリネーム
+4. `gulpfile-config-sample.js` をコピーして `gulpfile-config.js` にリネーム
 
 ## 起動
 
@@ -49,7 +51,7 @@ gulp
 
 `gulp` が起動している `shell` で `Ctrl + c`
 
-## gulpfile-config.js 項目
+## gulpfile-config.js
 
 * browserSync:
 
@@ -98,4 +100,4 @@ gulp
 
 * watch.compile.js.name:
 
-  js コンパイル後ファイル名 (default: bundle.js)
+  js コンパイル後ファイル名

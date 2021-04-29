@@ -44,11 +44,7 @@ const compileJs = () => {
     return jsFileExists() && pipline(
         src(config.watch.compile.js.src),
         sourcemaps.init(),
-        concat(
-            config.watch.compile.js.name
-                ? config.watch.compile.js.name
-                : 'script.js'
-        ),
+        concat(config.watch.compile.js.name, { newLine: ';' }),
         babel({
             presets: ['@babel/env']
         }),
