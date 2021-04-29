@@ -1,0 +1,18 @@
+a {
+  display: block;
+}
+
+.container {
+  padding: 1rem;
+  background-color: #eee;
+
+  &.--one {
+    background-color: orange;
+  }
+  &.--two {
+    background-color: pink;
+  }
+  &.--three {
+    background-color: skyblue;
+  }
+}

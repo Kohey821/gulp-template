@@ -1,43 +1,75 @@
-# gulp.js テンプレート
+# gulp の設定
 
 Windows 向けに記載されているので適宜読み替えで...
-<br>一先ず sass のみ...
+
+## 用語
+
+* shell:
+
+  Windows Powershell / [Git Bash](https://gitforwindows.org/) 等
 
 ## 初回インストール
 
-[Node.js](https://nodejs.org/ja/) (推奨版)をインストール
+1. [Node.js](https://nodejs.org/ja/) (推奨版)をインストール
 
-このディレクトリを [Git Bash](https://gitforwindows.org/) 等で開いて
+2. `shell` を起動して
+
+  ``` sh
+  npm install -g gulp-cli \
+  && npm install -g sass \
+  && npm install -g browser-sync
+  ```
+
+  で必要なグローバル npm パッケージをイントール
+
+3. このディレクトリを `shell` で開き
+
+  ``` sh
+  npm cache clean --force \
+  && npm install
+  ```
+
+  でこのディレクトリで必要な npm パッケージのインストール
+
+4. `gulpfile-config-default.js` をコピーして `gulpfile-config.js` にリネーム
+
+## 起動
+
+このディレクトリを `shell` で開き
 
 ``` sh
-npm install --global gulp-cli \
-&& npm install -g sass \
-&& npm install -g browser-sync
+gulp
 ```
 
-で必要なグローバル npm パッケージをイントールしたのち
+エンター
 
-``` sh
-npm install
-```
+ブラウザが開けば起動完了
 
-でこのディレクトリで必要な npm パッケージをインストール
+## 停止
 
-## gulpfile-config.js
+`gulp` が起動している `shell` で `Ctrl + c`
+
+## gulpfile-config.js 項目
 
 * browserSync:
 
   [公式 options](https://browsersync.io/docs/options) と同様
+  <br>このプロパティを削除で無効化
 
 * watch.reload.src:
 
-  変更時にブラウザをリロードするファイル郡
+  browserSync 使用時、ファイル変更時にブラウザをリロードするファイル郡
   <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
 
 * watch.stream.src:
 
-  変更時にブラウザに流し込む (主に CSS) ファイル郡
+  browserSync 使用時、ファイル変更時にブラウザに流し込む CSS ファイル郡
   <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+
+* watch.compile.sass:
+
+  sass 用オブジェクト
+  <br>このプロパティを削除で無効化
 
 * watch.compile.sass.src:
 
@@ -49,18 +81,21 @@ npm install
   sass コンパイル先
   <br>[dest()](https://gulpjs.com/docs/en/api/dest) の directory パラメーター同様
 
-## 稼働
+* watch.compile.js:
 
-このディレクトリを [Git Bash](https://gitforwindows.org/) 等で開いて
+  js 用オブジェクト
+  <br>このプロパティを削除で無効化
 
-``` sh
-gulp
-```
+* watch.compile.js.src:
 
-node-sass 系のエラーが出る場合は
+  js ファイル群
+  <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
 
-``` sh
-npm rebuild node-sass
-```
+* watch.compile.js.dest:
 
-で node-sass をリビルド
+  js コンパイル先
+  <br>[dest()](https://gulpjs.com/docs/en/api/dest) の directory パラメーター同様
+
+* watch.compile.js.name:
+
+  js コンパイル後ファイル名 (default: bundle.js)

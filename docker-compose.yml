@@ -1,7 +1,0 @@
-services:
-  app:
-    image: php:apache
-    volumes:
-      - "./app:/var/www/html"
-    ports:
-      - "80:80"
