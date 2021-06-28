@@ -4,18 +4,31 @@ const browserSync = require('browser-sync').create();
 
 const sourcemaps = require('gulp-sourcemaps');
 
-const sass = require('gulp-sass');
-sass.compiler = require('sass');
-const Fiber = require('fibers');;
-const autoprefixer = require('autoprefixer');
-const postcss = require('gulp-postcss');
-
 const babel = require('gulp-babel');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const pipline = require('readable-stream').pipeline;
 
-const { config } = require('./gulpfile-config');
+const sass = require('gulp-sass')(require('sass'));
+const Fiber = require('fibers');;
+const autoprefixer = require('autoprefixer');
+const postcss = require('gulp-postcss');
+
+const svgmin = require('gulp-svgmin');
+
+const compileConfig = require('./gulpfile-config-compile');
+
+let browserSyncConfig = null;
+try {
+    browserSyncConfig = require('./gulpfile-config-browser-sync');
+} catch {
+    console.log(`
+        --------------------------------------
+        gulpfile-config-browser-sync.js
+        を作成すると幸せになれます。
+        --------------------------------------
+    `);
+}
 
 const checkNested = (obj, level, ...rest) => {
     if (typeof obj === 'undefined') return false;
@@ -23,16 +36,8 @@ const checkNested = (obj, level, ...rest) => {
     return checkNested(obj[level], ...rest);
 };
 
-const useBrowserSync = () => {
-    return checkNested(config, 'browserSync');
-};
-
-const sassFileExists = () => {
-    return checkNested(config.watch, 'compile', 'sass', 'src');
-};
-
-const jsFileExists = () => {
-    return checkNested(config.watch, 'compile', 'js', 'src');
+const configExist = (...prop) => {
+    return checkNested(...prop);
 };
 
 const streamCss = (stream) => {
@@ -40,46 +45,77 @@ const streamCss = (stream) => {
         .pipe(browserSync.stream());
 };
 
-const compileJs = () => {
-    return jsFileExists() && pipline(
-        src(config.watch.compile.js.src),
-        sourcemaps.init(),
-        concat(config.watch.compile.js.name, { newLine: ';' }),
-        babel({
-            presets: ['@babel/env']
-        }),
-        uglify({
-            keep_fnames: true,
-            mangle: false,
-        }),
-        sourcemaps.write('.'),
-        dest(config.watch.compile.js.dest)
-    );
+const compileJs = (cb) => {
+    if (configExist(compileConfig, 'js')) {
+        for (let i of compileConfig.js) {
+            pipline(
+                src(i.src),
+                sourcemaps.init(),
+                concat(i.name),
+                babel({
+                    presets: ['@babel/env']
+                }),
+                uglify({
+                    keep_fnames: true,
+                    mangle: false,
+                }),
+                sourcemaps.write('.'),
+                dest(i.dest),
+                dest(i.dest)
+            );
+        }
+    }
+
+    cb();
 };
 
-const compileSass = () => {
-    return sassFileExists() && src(config.watch.compile.sass.src)
-        .pipe(sourcemaps.init())
-        .pipe(
-            sass({
-                outputStyle: "compressed",
-                fiber: Fiber,
-            })
-                .on('error', sass.logError))
-        .pipe(postcss([ autoprefixer() ]))
-        .pipe(sourcemaps.write('.'))
-        .pipe(dest(config.watch.compile.sass.dest));
+const compileSass = (cb) => {
+    if (configExist(compileConfig, 'sass')) {
+        for (let i of compileConfig.sass) {
+            src(i.src)
+                .pipe(sourcemaps.init())
+                .pipe(
+                    sass({
+                        outputStyle: "compressed",
+                        fiber: Fiber,
+                    })
+                        .on('error', sass.logError))
+                .pipe(postcss([ autoprefixer() ]))
+                .pipe(sourcemaps.write('.'))
+                .pipe(dest(i.dest))
+                .pipe(dest(i.dest));
+        }
+    }
+
+    cb();
+};
+
+const compileSvg = (cb) => {
+    if (configExist(compileConfig, 'svg')) {
+        for (let i of compileConfig.svg) {
+            src(i.src)
+                .pipe(svgmin({
+                    plugins: [
+                        {cleanupIDs: false},
+                    ],
+                }))
+                .pipe(dest(i.dest))
+                .pipe(dest(i.dest));
+        }
+    }
+
+    cb();
 };
 
 const setBrowserSyncEvents = (cb) => {
-    if (useBrowserSync()) {
-        browserSync.init(config.browserSync);
+    if (browserSyncConfig) {
+        browserSync.init(browserSyncConfig.init);
 
-        watch(config.watch.stream.src, () => {
-            return streamCss(src(config.watch.stream.src));
+        watch(browserSyncConfig.stream, () => {
+            return streamCss(src(browserSyncConfig.stream));
         });
 
-        watch(config.watch.reload.src, (cb) => {
+        watch(browserSyncConfig.reload, (cb) => {
             browserSync.reload();
 
             cb();
@@ -90,10 +126,23 @@ const setBrowserSyncEvents = (cb) => {
 };
 
 const dev = (cb) => {
-    sassFileExists()
-        && watch(config.watch.compile.sass.src, compileSass);
-    jsFileExists()
-        && watch(config.watch.compile.js.src, compileJs);
+    if (configExist(compileConfig, 'js')) {
+        for (let i of compileConfig.js) {
+            watch(i.src, compileJs);
+        }
+    }
+
+    if (configExist(compileConfig, 'sass')) {
+        for (let i of compileConfig.sass) {
+            watch(i.src, compileSass);
+        }
+    }
+
+    if (configExist(compileConfig, 'svg')) {
+        for (let i of compileConfig.svg) {
+            watch(i.src, compileSvg);
+        }
+    }
 
     cb();
 };
@@ -101,7 +150,8 @@ const dev = (cb) => {
 exports.default = series(
     parallel(
         compileJs,
-        compileSass
+        compileSass,
+        compileSvg
     ),
     setBrowserSyncEvents,
     dev

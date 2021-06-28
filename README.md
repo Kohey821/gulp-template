@@ -1,103 +1,106 @@
-# gulp テンプレート
+# 用語
 
-[設定](#gulpfile-configjs)に基づき、コンパイル、ブラウザリロードを自動で行います
+- shell
 
-以下 Windows 向けに記載されているので適宜読み替えで...
+  Windows Powershell／[Git Bash](https://gitforwindows.org/)等
 
-## 用語
+# 初回インストール
 
-* shell:
+1. [Node.js](https://nodejs.org/ja/)（推奨版）をインストール
 
-  Windows Powershell / [Git Bash](https://gitforwindows.org/) 等
+2. どこでもいいので`shell`を起動して
 
-## 初回インストール
+    ``` sh
+    npm install -g gulp-cli \
+    && npm install -g sass \
+    && npm install -g browser-sync
+    ```
 
-1. [Node.js](https://nodejs.org/ja/) (推奨版)をインストール
+    で必要なグローバルnpmパッケージをイントール
 
-2. `shell` を起動して
+3. このディレクトリを`shell`で開き
 
-  ``` sh
-  npm install -g gulp-cli \
-  && npm install -g sass \
-  && npm install -g browser-sync
-  ```
+    ``` sh
+    npm cache clean --force \
+    && npm install
+    ```
 
-  で必要なグローバル npm パッケージをイントール
+    でこのディレクトリで必要なnpmパッケージのインストール
 
-3. このディレクトリを `shell` で開き
+# 起動
 
-  ``` sh
-  npm cache clean --force \
-  && npm install
-  ```
-
-  でこのディレクトリで必要な npm パッケージのインストール
-
-4. `gulpfile-config-sample.js` をコピーして `gulpfile-config.js` にリネーム
-
-## 起動
-
-このディレクトリを `shell` で開き
+このディレクトリを`shell`で開き
 
 ``` sh
 gulp
 ```
 
-エンター
+`Enter`
 
-ブラウザが開けば起動完了
+# 停止
 
-## 停止
+`gulp`が起動している`shell`で`Ctrl+c`
 
-`gulp` が起動している `shell` で `Ctrl + c`
+# 設定
 
-## gulpfile-config.js
+## gulpfile-config-compile.js
+- sass
 
-* browserSync:
+  sass の設定用配列
 
-  [公式 options](https://browsersync.io/docs/options) と同様
-  <br>このプロパティを削除で無効化
+  - src
 
-* watch.reload.src:
+    sassのファイル群
+    <br>[src()](https://gulpjs.com/docs/en/api/src)のglobsパラメーター同様
 
-  browserSync 使用時、ファイル変更時にブラウザをリロードするファイル郡
-  <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+  - dest
 
-* watch.stream.src:
+    コンパイル後格納先
+    <br>[dest()](https://gulpjs.com/docs/en/api/dest)のdirectoryパラメーター同様
 
-  browserSync 使用時、ファイル変更時にブラウザに流し込む CSS ファイル郡
-  <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+- svg
 
-* watch.compile.sass:
+  svgの設定用配列
 
-  sass 用オブジェクト
-  <br>このプロパティを削除で無効化
+  - src
 
-* watch.compile.sass.src:
+    svgのファイル群
+    <br>[src()](https://gulpjs.com/docs/en/api/src)のglobsパラメーター同様
 
-  sass ファイル群
-  <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+  - dest
 
-* watch.compile.sass.dest:
+    コンパイル後格納先
+    <br>[dest()](https://gulpjs.com/docs/en/api/dest)のdirectoryパラメーター同様
 
-  sass コンパイル先
-  <br>[dest()](https://gulpjs.com/docs/en/api/dest) の directory パラメーター同様
+- js
 
-* watch.compile.js:
+  jsの設定用配列
 
-  js 用オブジェクト
-  <br>このプロパティを削除で無効化
+  - src
 
-* watch.compile.js.src:
+    jsのファイル群
+    <br>[src()](https://gulpjs.com/docs/en/api/src)のglobsパラメーター同様
 
-  js ファイル群
-  <br>[src()](https://gulpjs.com/docs/en/api/src) の globs パラメーター同様
+  - dest
 
-* watch.compile.js.dest:
+    コンパイル後格納先
+    <br>[dest()](https://gulpjs.com/docs/en/api/dest)のdirectoryパラメーター同様
 
-  js コンパイル先
-  <br>[dest()](https://gulpjs.com/docs/en/api/dest) の directory パラメーター同様
+  - name
 
-* watch.compile.js.name:
+    コンパイル後のファイル名
 
-  js コンパイル後ファイル名
+## gulpfile-config-browser-sync.js
+- init
+
+  [公式options](https://browsersync.io/docs/options)と同様
+
+- reload
+
+  ファイル変更時にブラウザをリロードするファイル郡
+  <br>[src()](https://gulpjs.com/docs/en/api/src)のglobsパラメーター同様
+
+- stream
+
+  ファイル変更時にブラウザに流し込むCSSファイル郡
+  <br>[src()](https://gulpjs.com/docs/en/api/src)のglobsパラメーター同様

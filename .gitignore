@@ -1,6 +1,3 @@
 node_modules
 
-gulpfile-config.js
-
-sample/css/dest
-sample/js/dest
+sample/dest
