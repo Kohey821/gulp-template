@@ -4,28 +4,32 @@
 
   Windows Powershell／[Git Bash](https://gitforwindows.org/)等
 
+<br>
+
 # 初回インストール
 
-1. [Node.js](https://nodejs.org/ja/)（推奨版）をインストール
+- [Node.js](https://nodejs.org/ja/)（推奨版）をインストール
 
-2. どこでもいいので`shell`を起動して
+- どこでもいいので`shell`を起動して
 
-    ``` sh
-    npm install -g gulp-cli \
-    && npm install -g sass \
-    && npm install -g browser-sync
-    ```
+  ``` sh
+  npm install -g gulp-cli \
+  && npm install -g sass \
+  && npm install -g browser-sync
+  ```
 
-    で必要なグローバルnpmパッケージをイントール
+  で必要なグローバルnpmパッケージをイントール
 
-3. このディレクトリを`shell`で開き
+- このディレクトリを`shell`で開き
 
-    ``` sh
-    npm cache clean --force \
-    && npm install
-    ```
+  ``` sh
+  npm cache clean --force \
+  && npm install
+  ```
 
-    でこのディレクトリで必要なnpmパッケージのインストール
+  でこのディレクトリで必要なnpmパッケージのインストール
+
+<br>
 
 # 起動
 
@@ -37,9 +41,13 @@ gulp
 
 `Enter`
 
+<br>
+
 # 停止
 
 `gulp`が起動している`shell`で`Ctrl+c`
+
+<br>
 
 # 設定
 
@@ -89,6 +97,8 @@ gulp
   - name
 
     コンパイル後のファイル名
+
+<br>
 
 ## gulpfile-config-browser-sync.js
 - init
